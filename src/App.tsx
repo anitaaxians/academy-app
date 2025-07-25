@@ -1,22 +1,20 @@
-import { Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import { Route, Routes } from 'react-router-dom';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Navbar from './components/Navbar';
-import DashboardPage from './pages/DashboardPage';
 
-function App() {
+const App = () => {
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );
-}
+};
 
 export default App;
