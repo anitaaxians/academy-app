@@ -42,6 +42,24 @@ background-color: rgba(0, 0, 0, 0.75);
 .navbar-links li a:hover {
   color: #00bcd4;
 }
+contact-link {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-family: inherit;
+}
+
+.contact-link:hover {
+  color: #00bcd4;
+}
+.contact-link.active {
+  color: #00bcd4;
+  text-shadow: 0 0 8px rgba(0, 188, 212, 0.8);
+}
 
 @media (max-width: 768px) {
   .navbar {

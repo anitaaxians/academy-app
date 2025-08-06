@@ -37,7 +37,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:7056/api/register", user);
+      const response = await axios.post("https://localhost:7116/api/auth/register", user);
       console.log("User registered:", response.data);
       alert("Registration successful!");
     } catch (error) {

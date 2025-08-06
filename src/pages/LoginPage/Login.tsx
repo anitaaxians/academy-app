@@ -1,31 +1,49 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import "./Login.css";
 
+interface JWTPayload {
+  exp: number;
+  role: string;
+}
+
 const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!email || !password) {
-      alert("Please fill in all fields.");
-      return;
-    }
+    setError(null);
 
     try {
-      const res = await axios.post("http://localhost:7056/api/login", {
-        email,
-        password,
+      const res = await fetch("https://localhost:7116/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
-      console.log("Login success:", res.data);
-      alert("Login successful!");
-    } catch (err) {
-      console.error("Login failed:", err);
-      alert("Login failed. Please try again.");
+      if (!res.ok) throw new Error("Invalid credentials");
+
+      const data = await res.json();
+
+      // Save token in localStorage
+      localStorage.setItem("token", data.token);
+
+      // Decode JWT to get role
+      const decoded = jwtDecode<JWTPayload>(data.token);
+      localStorage.setItem("role", decoded.role);
+
+      // Redirect based on role
+      if (decoded.role === "Admin") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/my-courses");
+      }
+    } catch (err: any) {
+      setError(err.message || "Login failed");
     }
   };
 
@@ -35,6 +53,8 @@ const Login = () => {
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Login</h2>
 
+          {error && <p className="error-message">{error}</p>}
+
           <input
             type="email"
             placeholder="Email"
@@ -42,6 +62,7 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+
           <input
             type="password"
             placeholder="Password"

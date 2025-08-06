@@ -1,4 +1,4 @@
-export const API_BASE = 'https://localhost:7056/api';
+export const API_BASE = 'https://localhost:7116/api';
 
 export const register = async (email: string, password: string) => {
   const res = await fetch(`${API_BASE}/auth/register`, {
