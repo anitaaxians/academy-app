@@ -5,7 +5,6 @@ import "./CourseDetails.css";
 interface Lesson {
   id: string;
   title: string;
-  order: number;
 }
 
 interface Course {
@@ -78,7 +77,7 @@ const CourseDetails = () => {
           course.lessons.map((lesson) => (
             <li key={lesson.id}>
               <Link to={`/lesson/${lesson.id}`}>
-                Lesson {lesson.order}: {lesson.title}
+                Lesson : {lesson.title}
               </Link>
             </li>
           ))

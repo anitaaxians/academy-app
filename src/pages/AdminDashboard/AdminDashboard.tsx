@@ -4,7 +4,6 @@ import './AdminDashboard.css';
 interface Lesson {
   id: string;
   title: string;
-  order: number;
 }
 
 interface Course {
@@ -174,12 +173,7 @@ const AddLessonForm = ({
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <input
-        type="number"
-        placeholder="Order"
-        value={order}
-        onChange={(e) => setOrder(parseInt(e.target.value))}
-      />
+      
       <button onClick={() => {
         onAdd(courseId, title, order);
         setTitle('');
