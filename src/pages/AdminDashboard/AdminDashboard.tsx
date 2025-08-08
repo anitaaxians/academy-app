@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './AdminDashboard.css';
 
 interface Lesson {
-  id: string;
+  lessonId: string;
   title: string;
 }
 
@@ -68,11 +68,11 @@ const AdminDashboard = () => {
     fetchCourses();
   };
 
-  const handleAddLesson = async (courseId: string, title: string, order: number) => {
+  const handleAddLesson = async (courseId: string, title: string) => {
     await fetch(`https://localhost:7116/api/course/${courseId}/lessons`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ title, order }),
+      body: JSON.stringify({ title }),
     });
     fetchCourses();
   };
@@ -128,9 +128,9 @@ const AdminDashboard = () => {
               ) : (
                 <ul>
                   {course.lessons.map((lesson) => (
-                    <li key={lesson.id}>
+                    <li key={lesson.lessonId}>
                       {lesson.title}
-                      <button onClick={() => handleDeleteLesson(course.id, lesson.id)}>Delete</button>
+                      <button onClick={() => handleDeleteLesson(course.id, lesson.lessonId)}>Delete</button>
                     </li>
                   ))}
                 </ul>
@@ -160,10 +160,9 @@ const AddLessonForm = ({
   onAdd,
 }: {
   courseId: string;
-  onAdd: (courseId: string, title: string, order: number) => void;
+  onAdd: (courseId: string, title: string) => void;
 }) => {
   const [title, setTitle] = useState('');
-  const [order, setOrder] = useState<number>(1);
 
   return (
     <div className="add-lesson-form">
@@ -175,9 +174,8 @@ const AddLessonForm = ({
       />
       
       <button onClick={() => {
-        onAdd(courseId, title, order);
+        onAdd(courseId, title);
         setTitle('');
-        setOrder(1);
       }}>Add Lesson</button>
     </div>
   );

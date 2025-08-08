@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "./CourseDetails.css";
 
 interface Lesson {
-  id: string;
+  lessonId: string;
   title: string;
 }
 
@@ -34,6 +34,8 @@ const CourseDetails = () => {
         if (!res.ok) throw new Error("Could not load course");
 
         const data = await res.json();
+            console.log("Course data from API:", data);  // Shto këtë
+
         setCourse({
           ...data,
           lessons: data.lessons || []
@@ -75,8 +77,8 @@ const CourseDetails = () => {
       <ul>
         {course.lessons && course.lessons.length > 0 ? (
           course.lessons.map((lesson) => (
-            <li key={lesson.id}>
-              <Link to={`/lesson/${lesson.id}`}>
+            <li key={lesson.lessonId}>
+              <Link to={`/lesson/${lesson.lessonId}`}>
                 Lesson : {lesson.title}
               </Link>
             </li>
